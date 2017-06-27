@@ -13,12 +13,16 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
-        <li><a href="/articles">Articulo</a></li>
+        <li><a href="/articles">Articulos</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+        {% if session.logged_in %}
+        <li><a href="/logout">Logout</a></li>
+        {% else %}
         <li><a href="/register">Register</a></li>
         <li><a href="/login">Login</a></li>
+        {% endif %}
       </ul>
     </div><!--/.nav-collapse -->
   </div>

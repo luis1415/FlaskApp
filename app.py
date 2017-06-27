@@ -38,7 +38,8 @@ def articles():
 
 @app.route('/article/<string:id_>/')
 def article(id_):
-    return render_template('article.html', id=id_)
+    articulo = Articles[int(id_) - 1]
+    return render_template('article.html', articulo=articulo)
 
 
 class MyForm(Form):
@@ -98,16 +99,36 @@ def login():
 
             # se comparan los passwords
             if sha256_crypt.verify(password_candidate, password):
-                msg = 'Login Correcto'
-                return render_template('home.html', msg=msg)
+                session['logged_in'] = True
+                session['username'] = username
+
+                flash('Login Correcto', 'success')
+                return redirect(url_for('dashboard'))
             else:
                 error = 'Password incorrecta'
                 return render_template('login.html', error=error)
+
+            # se cierra el cursor
+            cur.close()
+
         else:
             error = 'No existe el usuario'
             return render_template('login.html', error=error)
 
     return render_template('login.html')
+
+
+@app.route('/dashborad')
+def dashboard():
+    return render_template('dashboard.html')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Logout', 'info')
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.secret_key = 'llavesecreta1234'

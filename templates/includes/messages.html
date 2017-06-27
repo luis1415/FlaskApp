@@ -1,18 +1,24 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for category, message in messages %}
-            <div class="alert alert-{{ category }}"> {{ message }}</div>
+            <div class="alert alert-{{ category }} alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Bien!</strong> {{ message }}
+            </div>
         {% endfor %}
     {% endif %}
 {% endwith %}
 
 {% if error %}
-    <div class="alert alert-danger"> {{ error }}</div>
+    <div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+        <strong>Error</strong> {{ error }}
+    </div>
 {% endif %}
 
 {% if msg %}
     <div class="alert alert-success alert-dismissable">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-        <strong>Success!</strong> {{ msg }}
+        <strong>Bien</strong> {{ msg }}
     </div>
 {% endif %}

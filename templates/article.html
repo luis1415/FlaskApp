@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>{{ id }}</h1>
+    <h1>{{ articulo['titulo'] }}</h1>
+    <p>{{ articulo['body'] }}</p>
+    <small>Autor: {{ articulo['autor'] }}</small>
 {% endblock %}

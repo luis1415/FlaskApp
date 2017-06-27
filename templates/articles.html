@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>Articulos</h1>
+    <h1>Articulos <small>desde un json</small></h1>
     <ul class="list-group">
         {% for article in articles %}
             <li class="list-group-item"> <a href="article/{{ article.id }}"> {{ article.titulo }} </a></li>
