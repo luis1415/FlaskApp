@@ -74,9 +74,40 @@ def register():
 
         # mensajes en flask se usa flash, para eso se agrega en includes los mensajes
         flash('Registrado', 'success')
-
+        return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
+
+# Login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # obtenemos los campos del formulario
+        username = request.form['username']
+        password_candidate = request.form['password']
+
+        # se crea un cursor
+        cur = mysql.connection.cursor()
+
+        # se hace la consulta
+        result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
+
+        if result > 0:
+            data = cur.fetchone()
+            password = data['password']
+
+            # se comparan los passwords
+            if sha256_crypt.verify(password_candidate, password):
+                msg = 'Login Correcto'
+                return render_template('home.html', msg=msg)
+            else:
+                error = 'Password incorrecta'
+                return render_template('login.html', error=error)
+        else:
+            error = 'No existe el usuario'
+            return render_template('login.html', error=error)
+
+    return render_template('login.html')
 
 if __name__ == '__main__':
     app.secret_key = 'llavesecreta1234'
