@@ -4,6 +4,7 @@ from wtforms.fields.html5 import EmailField
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
+from functools import wraps
 
 app = Flask(__name__)
 # app.secret_key = 'llavesecreta123'
@@ -118,7 +119,21 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/dashborad')
+# decorador para impedir que entren a dashboard sin loguear
+def requires_logged(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('No esta autorizado, Por favor haga Login', 'info')
+            return redirect(url_for('login'))
+    return wrap
+
+
+# Dashboard
+@app.route('/dashboard')
+@requires_logged
 def dashboard():
     return render_template('dashboard.html')
 
