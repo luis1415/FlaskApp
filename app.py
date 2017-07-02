@@ -5,6 +5,8 @@ from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
+import pandas as pd
+import json
 
 app = Flask(__name__)
 # app.secret_key = 'llavesecreta123'
@@ -132,10 +134,46 @@ def requires_logged(f):
 
 
 # Dashboard
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @requires_logged
 def dashboard():
-    return render_template('dashboard.html')
+    # se crea un cursor
+    cur = mysql.connection.cursor()
+
+    # se hace la consulta
+    result = cur.execute("SELECT * FROM letter")
+    data = cur.fetchall()
+    # se cierra el cursor
+    cur.close()
+
+    letras = []
+    frecuencias = []
+
+    for i in data:
+        letras.append(str(i['letra']))
+        frecuencias.append(int(i['frec']))
+
+    print(letras, frecuencias)
+    # se pasa a dataframe
+    df = pd.DataFrame({
+        "Letter": letras,
+        "Freq": frecuencias
+    })
+    # se pasa a diccionario json
+    d = [
+        dict([
+            (colname, row[i])
+            for i, colname in enumerate(df.columns)
+        ])
+        for row in df.values
+    ]
+    print('dataframe----------------------')
+    print(df)
+    print('diccionario--------------------')
+    print(d)
+    print('json---------------------------')
+    print(json.dumps(d))
+    return render_template('dashboard.html', data=json.dumps(d), tabla=data)
 
 
 @app.route('/logout')
