@@ -11,9 +11,9 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/articles">Articulos</a></li>
+        <li class="{{ 'active' if active_page == 'home' else '' }}"><a href="/">Home</a></li>
+        <li class="{{ 'active' if active_page == 'about' else '' }}"><a href="/about">About</a></li>
+        <li class="{{ 'active' if active_page == 'articles' else '' }}"><a href="/articles">Artículos</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
@@ -21,8 +21,8 @@
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/logout">Logout</a></li>
         {% else %}
-        <li><a href="/register">Register</a></li>
-        <li><a href="/login">Login</a></li>
+        <li class="{{ 'active' if active_page == 'register' else '' }}"><a href="/register">Register</a></li>
+        <li class="{{ 'active' if active_page == 'login' else '' }}"><a href="/login">Login</a></li>
         {% endif %}
       </ul>
     </div><!--/.nav-collapse -->

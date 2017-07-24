@@ -16,7 +16,7 @@ Articles = articles()
 # configuracion de MySQL
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = 'betelgeuse'
 app.config['MYSQL_DB'] = 'flask_example'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
