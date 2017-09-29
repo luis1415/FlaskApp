@@ -21,3 +21,5 @@ INSERT INTO letter (letra, frec) VALUES ('D', 1);
 DESCRIBE users;
 
 SELECT * FROM letter;
+
+select riesgoPromedioRango from diabetes_dashboard;

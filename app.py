@@ -1,8 +1,9 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from data import articles
+from config import mysql_conf
 from wtforms.fields.html5 import EmailField
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 import pandas as pd
@@ -12,13 +13,14 @@ app = Flask(__name__)
 # app.secret_key = 'llavesecreta123'
 # Se debe llamar la funcion aqui, y se guarda en una variable
 Articles = articles()
+config = mysql_conf()
 
 # configuracion de MySQL
-app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'betelgeuse'
-app.config['MYSQL_DB'] = 'flask_example'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['MYSQL_HOST'] = config['host']
+app.config['MYSQL_USER'] = config['user']
+app.config['MYSQL_PASSWORD'] = config['password']
+app.config['MYSQL_DB'] = config['db']
+app.config['MYSQL_CURSORCLASS'] = config['class']
 
 # Inicializar MySQL
 mysql = MySQL(app)
