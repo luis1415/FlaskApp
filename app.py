@@ -8,12 +8,12 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 import pandas as pd
 import json
+import MySQLdb
 
 app = Flask(__name__)
-# app.secret_key = 'llavesecreta123'
 # Se debe llamar la funcion aqui, y se guarda en una variable
 Articles = articles()
-config = mysql_conf()
+config = mysql_conf()[0]
 
 # configuracion de MySQL
 app.config['MYSQL_HOST'] = config['host']
@@ -82,6 +82,43 @@ def register():
         flash('Registrado', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+
+@app.route('/historia', methods=['GET', 'POST'])
+def historia_clinica():
+    if request.method == 'POST':
+        data = request.form
+        print data
+        data2 = dict(
+            (key, request.form.getlist(key) if len(request.form.getlist(key)) > 1 else request.form.getlist(key)[0]) for
+            key in request.form.keys())
+        print(data2)
+
+        conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
+                               passwd=config['password'],
+                               db=config['db'])
+        cursor = conn.cursor()
+
+        columnas = ""
+        for i in range(len(data2.keys())):
+            columnas += data2.keys()[i]
+            if i < len(data2.keys()) - 1:
+                columnas += ', '
+        print columnas
+
+        valores = ""
+        for i in range(len(data2.values())):
+            valores += "\'" + str(data2.values()[i]) + "\'"
+            if i < len(data2.values()) - 1:
+                valores += ', '
+        print valores
+
+        query = "INSERT INTO historia_clinica ({}) VALUES ({})".format(columnas, valores)
+        print(query)
+        cursor.execute(query)
+        cursor.close()
+
+    return render_template('historia_clinica.html')
 
 
 # Login

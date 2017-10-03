@@ -1,3 +1,4 @@
 config.py
 db.sql
 .idea/*
+*.pyc
