@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% set active_page = "mostrar_historias" %}
+{% from 'includes/formhelpers.html'import render_field %}
+{% block body %}
+    <div class="container">
+        <h1>Historias Clínicas</h1>
+        <table class="table table-striped">
+        {% for t in data %}
+            <tr>
+            {% for i in t %}
+                <td>{{ i }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+         </table>
+    </div>
+{% endblock %}

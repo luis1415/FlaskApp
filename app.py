@@ -9,6 +9,8 @@ from functools import wraps
 import pandas as pd
 import json
 import MySQLdb
+import datetime
+
 
 app = Flask(__name__)
 # Se debe llamar la funcion aqui, y se guarda en una variable
@@ -24,6 +26,19 @@ app.config['MYSQL_CURSORCLASS'] = config['class']
 
 # Inicializar MySQL
 mysql = MySQL(app)
+
+
+# css bootstrap
+def get_resource_as_string(name, charset='utf-8'):
+    with app.open_resource(name) as f:
+        return f.read().decode(charset)
+
+app.jinja_env.globals['get_resource_as_string'] = get_resource_as_string
+
+
+def fechas_json(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
 
 
 @app.route('/')
@@ -92,7 +107,6 @@ def historia_clinica():
         data2 = dict(
             (key, request.form.getlist(key) if len(request.form.getlist(key)) > 1 else request.form.getlist(key)[0]) for
             key in request.form.keys())
-        print(data2)
 
         conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
                                passwd=config['password'],
@@ -116,9 +130,31 @@ def historia_clinica():
         query = "INSERT INTO historia_clinica ({}) VALUES ({})".format(columnas, valores)
         print(query)
         cursor.execute(query)
+        conn.commit()
         cursor.close()
 
     return render_template('historia_clinica.html')
+
+
+@app.route('/mostrar_historias', methods=['GET'])
+def mostrar_historias():
+    conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
+                           passwd=config['password'],
+                           db=config['db'])
+    cursor = conn.cursor()
+    query = "SELECT * FROM historia_clinica"
+    try:
+        cursor.execute(query)
+        data = cursor.fetchall()
+        # data = list(data)
+        # data = json.dumps(data, default=fechas_json).encode('utf8')
+        # se cierra el cursor
+        cursor.close()
+    except:
+        data = {'respuesta': 500}
+    print(data , type(data))
+    conn.close()
+    return render_template('mostrar_historias.html', data=data)
 
 
 # Login
