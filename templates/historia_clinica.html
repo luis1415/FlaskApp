@@ -3,29 +3,30 @@
 {% from 'includes/formhelpers.html'import render_field %}
 {% block body %}
     <div class="container">
-        <form action="historia" id="textform" method="post" class="form-horizontal">
-            <legend>Agregar Historia Clínica</legend>
-            Cédula:<br>
-            <input type="text" name="cedula"><br>
-            Diagnosticos:<br>
-            <textarea name="diagnostico" class="control-label"></textarea><br>
-            Tratamiento:<br>
-            <textarea name="tratamiento"></textarea><br>
-            Fecha:<br>
-            <input type="date" name="fecha_elaboracion" value={{ data }}><br>
+    <h1>Agregar Historia Clínica <small>Datos Maestros</small></h1>
+        <form action="historia" id="textform" method="post" class="col-lg-4 form-horizontal">
+            <fieldset>
             Nombre:<br>
-            <input type="text" name="nombre"><br>
+            <input type="text"  class="form-control" name="nombre"><br>
             Apellido:<br>
-            <input type="text" name="apellido"><br>
+            <input type="text" class="form-control"  name="apellido"><br>
+            Cédula:<br>
+            <input type="text" class="form-control" name="cedula"><br>
+            Sexo:<br>
+            <select id="select" class="form-control" name="sexo">
+              <option>Hombre</option>
+              <option>Mujer</option>
+            </select><br>
+            Ciudad de nacimiento:<br>
+            <input type="text"  class="form-control" name="ciudad" value="Medellin"><br>
+            Diagnosticos:<br>
+            <textarea name="diagnostico" class="form-control"></textarea><br>
+            Tratamiento:<br>
+            <textarea name="tratamiento" class="form-control"></textarea><br>
+            Fecha:<br>
+            <input type="date" name="fecha_elaboracion" value={{ fecha }} class="form-control"><br>
             <br>
-            <select class="form-control" id="select">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-            <input type="submit" value="Enviar">
-        </form>
+            <input type="submit" value="Guardar">
+        </fieldset></form>
     </div>
 {% endblock %}

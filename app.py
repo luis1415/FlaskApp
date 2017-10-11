@@ -127,13 +127,13 @@ def historia_clinica():
                 valores += ', '
         print valores
 
-        query = "INSERT INTO historia_clinica ({}) VALUES ({})".format(columnas, valores)
+        query = "INSERT INTO historia ({}) VALUES ({})".format(columnas, valores)
         print(query)
         cursor.execute(query)
         conn.commit()
         cursor.close()
-    data = datetime.datetime.today()
-    return render_template('historia_clinica.html', data=data)
+    fecha = datetime.datetime.today()
+    return render_template('historia_clinica.html', fecha=fecha)
 
 
 @app.route('/mostrar_historias', methods=['GET'])
@@ -142,7 +142,7 @@ def mostrar_historias():
                            passwd=config['password'],
                            db=config['db'])
     cursor = conn.cursor()
-    query = "SELECT * FROM historia_clinica"
+    query = "SELECT * FROM historia"
     try:
         cursor.execute(query)
         data = cursor.fetchall()
@@ -152,7 +152,26 @@ def mostrar_historias():
         cursor.close()
     except:
         data = {'respuesta': 500}
-    print(data , type(data))
+    conn.close()
+    return render_template('mostrar_historias.html', data=data)
+
+
+@app.route('/eliminar_historia/<id>', methods=['GET', 'POST'])
+def eliminar_historias(id):
+    conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
+                           passwd=config['password'],
+                           db=config['db'])
+    cursor = conn.cursor()
+    query = "DELETE FROM historia WHERE id_hc = {}".format(id)
+    try:
+        cursor.execute(query)
+        conn.commit()
+        query = "SELECT * FROM historia"
+        cursor.execute(query)
+        data = cursor.fetchall()
+        cursor.close()
+    except:
+        data = {'respuesta': 500}
     conn.close()
     return render_template('mostrar_historias.html', data=data)
 
