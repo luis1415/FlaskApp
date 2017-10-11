@@ -128,7 +128,7 @@ def historia_clinica():
         print valores
 
         query = "INSERT INTO historia ({}) VALUES ({})".format(columnas, valores)
-        print(query)
+        flash('Guardado Correctamente !!!', 'success')
         cursor.execute(query)
         conn.commit()
         cursor.close()
@@ -173,6 +173,7 @@ def eliminar_historias(id):
     except:
         data = {'respuesta': 500}
     conn.close()
+    flash('Eliminado', 'danger')
     return render_template('mostrar_historias.html', data=data)
 
 
@@ -200,7 +201,7 @@ def login():
                 session['username'] = username
 
                 flash('Login Correcto', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('index'))
             else:
                 error = 'Password incorrecta'
                 return render_template('login.html', error=error)

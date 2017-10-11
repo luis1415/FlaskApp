@@ -6,7 +6,9 @@
         <h1>Strix</h1>
         <p class="lead">
               <img src="{{url_for('static', filename='img/logo_strix.png')}}" /><br>
-            Consulta, historia clínica y resultados.
+            Administración de una consulta médica, historia clínica y resultados.<br><br>
+            <a href="{{ url_for('historia_clinica') }}" class="btn btn-default btn-lg">Agregar Paciente</a>
+            <a href="{{ url_for('mostrar_historias') }}" class="btn btn-default btn-lg">Consultar Paciente</a>
         </p>
     </div>
 {% endblock %}
