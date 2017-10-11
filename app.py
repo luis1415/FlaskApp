@@ -132,8 +132,8 @@ def historia_clinica():
         cursor.execute(query)
         conn.commit()
         cursor.close()
-
-    return render_template('historia_clinica.html')
+    data = datetime.datetime.today()
+    return render_template('historia_clinica.html', data=data)
 
 
 @app.route('/mostrar_historias', methods=['GET'])
