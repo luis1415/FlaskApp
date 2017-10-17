@@ -3,7 +3,7 @@
 {% from 'includes/formhelpers.html'import render_field %}
 {% block body %}
     <div class="container">
-    <h1>Agregar Historia Clínica <small>Datos Maestros</small></h1>
+    <h1>Información del usuario</h1>
         <form action="historia" id="textform" method="post" class="col-lg-4 form-horizontal">
             <fieldset>
             Nombre:<br>
@@ -19,12 +19,8 @@
             </select><br>
             Ciudad de nacimiento:<br>
             <input type="text"  class="form-control" name="ciudad" value="Medellin"><br>
-            Diagnosticos:<br>
-            <textarea name="diagnostico" class="form-control"></textarea><br>
-            Tratamiento:<br>
-            <textarea name="tratamiento" class="form-control"></textarea><br>
-            Fecha:<br>
-            <input type="date" name="fecha_elaboracion" value={{ fecha }} class="form-control"><br>
+            Fecha nacimiento:<br>
+            <input type="date" data-date="" data-date-format="DD MMMM YYYY hh:mm:ss" name="fecha_nacimiento" value={{ fecha }} class="form-control"><br>
             <br>
             <input type="submit" value="Guardar">
         </fieldset></form>

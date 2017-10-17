@@ -103,7 +103,6 @@ def register():
 def historia_clinica():
     if request.method == 'POST':
         data = request.form
-        print data
         data2 = dict(
             (key, request.form.getlist(key) if len(request.form.getlist(key)) > 1 else request.form.getlist(key)[0]) for
             key in request.form.keys())
@@ -158,6 +157,27 @@ def mostrar_historias():
 
 @app.route('/eliminar_historia/<id>', methods=['GET', 'POST'])
 def eliminar_historias(id):
+    conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
+                           passwd=config['password'],
+                           db=config['db'])
+    cursor = conn.cursor()
+    query = "DELETE FROM historia WHERE id_hc = {}".format(id)
+    try:
+        cursor.execute(query)
+        conn.commit()
+        query = "SELECT * FROM historia"
+        cursor.execute(query)
+        data = cursor.fetchall()
+        cursor.close()
+    except:
+        data = {'respuesta': 500}
+    conn.close()
+    flash('Eliminado', 'danger')
+    return render_template('mostrar_historias.html', data=data)
+
+
+@app.route('/editar_historia/<id>', methods=['GET', 'POST'])
+def editar_historia(id):
     conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
                            passwd=config['password'],
                            db=config['db'])
@@ -248,7 +268,6 @@ def dashboard():
         letras.append(str(i['letra']))
         frecuencias.append(int(i['frec']))
 
-    print(letras, frecuencias)
     # se pasa a dataframe
     df = pd.DataFrame({
         "Letter": letras,

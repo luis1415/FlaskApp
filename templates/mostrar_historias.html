@@ -7,9 +7,28 @@
         <table class="table table-striped">
         {% for t in data %}
             <tr>
+                <td><b>Código</b></td>
+                <td><b>Nombre</b></td>
+                <td><b>Apellido</b></td>
+                <td><b>Cédula</b></td>
+                <td><b>Sexo</b></td>
+                <td><b>Ciudad</b></td>
+                <td><b>Fecha nacimiento</b></td>
+                <td><b>Editar</b></td>
+                <td><b>Eliminar</b></td>
+            </tr>
+
+            <tr>
             {% for i in t %}
                 <td>{{ i }}</td>
             {% endfor %}
+                <td>
+                    <p>
+                        <a href="{{ url_for('editar_historia', id=t[0]) }}" class="btn btn-success">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </p>
+                </td>
                 <td>
                     <p>
                         <a href="{{ url_for('eliminar_historias', id=t[0]) }}" class="btn btn-danger">
