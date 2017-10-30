@@ -176,25 +176,21 @@ def eliminar_historias(id):
     return render_template('mostrar_historias.html', data=data)
 
 
-@app.route('/editar_historia/<id>', methods=['GET', 'POST'])
-def editar_historia(id):
+@app.route('/editar_historias/<id>', methods=['GET', 'POST'])
+def editar_historias(id):
     conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
                            passwd=config['password'],
                            db=config['db'])
     cursor = conn.cursor()
-    query = "DELETE FROM historia WHERE id_hc = {}".format(id)
     try:
-        cursor.execute(query)
-        conn.commit()
-        query = "SELECT * FROM historia"
+        query = "SELECT * FROM historia WHERE id_hc = {}".format(id)
         cursor.execute(query)
         data = cursor.fetchall()
         cursor.close()
     except:
         data = {'respuesta': 500}
     conn.close()
-    flash('Eliminado', 'danger')
-    return render_template('mostrar_historias.html', data=data)
+    return render_template('editar_historias.html', data=data)
 
 
 # Login
