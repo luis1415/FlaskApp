@@ -165,7 +165,7 @@ def eliminar_historias(id):
     try:
         cursor.execute(query)
         conn.commit()
-        query = "SELECT * FROM historia"
+        query = "SELECT id_hc, nombre, apellido, cedula, ciudad, fecha_nacimiento FROM historia"
         cursor.execute(query)
         data = cursor.fetchall()
         cursor.close()
@@ -191,6 +191,17 @@ def editar_historias(id):
         data = {'respuesta': 500}
     conn.close()
     return render_template('editar_historias.html', data=data)
+
+
+@app.route('/guardar_historias', methods=['POST'])
+def guardar_historias():
+    data = dict(
+        (key, request.form.getlist(key) if len(request.form.getlist(key)) > 1 else request.form.getlist(key)[0]) for
+        key in request.form.keys())
+
+    print(data)
+
+    return render_template('home.html')
 
 
 # Login

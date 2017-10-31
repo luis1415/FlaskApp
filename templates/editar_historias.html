@@ -1,5 +1,46 @@
 {% extends 'layout.html' %}
 {% from 'includes/formhelpers.html'import render_field %}
 {% block body %}
-    {{ data }}
+    <h3>Datos Maestros</h3>
+    <div class="container">
+        <form action="/guardar_historias" id="textform" method="post" class="form-horizontal">
+            <table class="table ">
+                <tr>
+                    <td><b>Código</b></td>
+                    <td><b>Nombre</b></td>
+                    <td><b>Apellido</b></td>
+                    <td><b>Sexo</b></td>
+                    <td><b>Cédula</b></td>
+                    <td><b>Ciudad</b></td>
+                    <td><b>Fecha nacimiento</b></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="form-control" name="codigo" value={{ data[0][0] }}></td>
+                    <td><input type="text" class="form-control" name="nombre" value={{ data[0][7] }}></td>
+                    <td><input type="text" class="form-control" name="apellido" value={{ data[0][8] }}></td>
+                    <td><input type="text" class="form-control" name="sexo" value={{ data[0][6] }}></td>
+                    <td><input type="text" class="form-control" name="cedula" value={{ data[0][9] }}></td>
+                    <td><input type="text" class="form-control" name="ciudad" value={{ data[0][14] }}></td>
+                    <td><input type="text" class="form-control" name="fecha_nacimiento" value={{ data[0][15] }}></td>
+
+                </tr>
+            </table>
+
+            <h3>Agregar más datos</h3>
+            <fieldset class="col-lg-4">
+                Empresa:<br>
+                <input type="text" class="form-control" name="empresa"><br>
+                Tipo de Certificado:<br>
+                <input type="text" class="form-control" name="tipo_certificado"><br>
+                Teléfono:<br>
+                <input type="text" class="form-control" name="telefono"><br>
+                Celular:<br>
+                <input type="text" class="form-control" name="celular"><br>
+                Estado civil:<br>
+                <input type="text" class="form-control" name="estado_civil"><br>
+                <br>
+                <input type="submit" value="Guardar">
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}

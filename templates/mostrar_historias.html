@@ -8,10 +8,10 @@
         {% for t in data %}
             <tr>
                 <td><b>Código</b></td>
+                <td><b>Sexo</b></td>
                 <td><b>Nombre</b></td>
                 <td><b>Apellido</b></td>
                 <td><b>Cédula</b></td>
-                <td><b>Sexo</b></td>
                 <td><b>Ciudad</b></td>
                 <td><b>Fecha nacimiento</b></td>
                 <td><b>Editar</b></td>
@@ -20,7 +20,9 @@
 
             <tr>
             {% for i in t %}
-                <td>{{ i }}</td>
+                {% if i != None %}
+                    <td>{{ i }}</td>
+                {% endif %}
             {% endfor %}
                 <td>
                     <p>
