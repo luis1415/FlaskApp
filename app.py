@@ -11,7 +11,6 @@ import json
 import MySQLdb
 import datetime
 
-
 app = Flask(__name__)
 # Se debe llamar la funcion aqui, y se guarda en una variable
 Articles = articles()
@@ -32,6 +31,7 @@ mysql = MySQL(app)
 def get_resource_as_string(name, charset='utf-8'):
     with app.open_resource(name) as f:
         return f.read().decode(charset)
+
 
 app.jinja_env.globals['get_resource_as_string'] = get_resource_as_string
 
@@ -195,11 +195,32 @@ def editar_historias(id):
 
 @app.route('/guardar_historias', methods=['POST'])
 def guardar_historias():
+    """
+    Esta funcion guarda las historias actualizandolas.
+    :return: 
+    """
     data = dict(
         (key, request.form.getlist(key) if len(request.form.getlist(key)) > 1 else request.form.getlist(key)[0]) for
         key in request.form.keys())
 
-    print(data)
+    # se construye el update
+    query = "UPDATE historia SET "
+    for key, value in data.iteritems():
+        query += str(key) + " = " + "\'" + str(value) + "\'" + ", "
+    query = query[:-2]
+    query += " WHERE id_hc = {}".format(data['codigo'])
+    print(query)
+
+    conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
+                           passwd=config['password'],
+                           db=config['db'])
+    cursor = conn.cursor()
+    try:
+        cursor.execute(query)
+        cursor.close()
+    except:
+        data = {'respuesta': 500}
+    conn.close()
 
     return render_template('home.html')
 
@@ -252,6 +273,7 @@ def requires_logged(f):
         else:
             flash('No esta autorizado, Por favor haga Login', 'info')
             return redirect(url_for('login'))
+
     return wrap
 
 
