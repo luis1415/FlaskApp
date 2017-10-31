@@ -141,7 +141,7 @@ def mostrar_historias():
                            passwd=config['password'],
                            db=config['db'])
     cursor = conn.cursor()
-    query = "SELECT * FROM historia"
+    query = "SELECT id_hc, nombre, apellido, sexo, cedula, ciudad, fecha_nacimiento FROM historia"
     try:
         cursor.execute(query)
         data = cursor.fetchall()
@@ -165,7 +165,7 @@ def eliminar_historias(id):
     try:
         cursor.execute(query)
         conn.commit()
-        query = "SELECT id_hc, nombre, apellido, cedula, ciudad, fecha_nacimiento FROM historia"
+        query = "SELECT id_hc, nombre, apellido, sexo, cedula, ciudad, fecha_nacimiento FROM historia"
         cursor.execute(query)
         data = cursor.fetchall()
         cursor.close()
@@ -183,7 +183,7 @@ def editar_historias(id):
                            db=config['db'])
     cursor = conn.cursor()
     try:
-        query = "SELECT * FROM historia WHERE id_hc = {}".format(id)
+        query = "SELECT id_hc, nombre, apellido, sexo, cedula, ciudad, fecha_nacimiento FROM historia WHERE id_hc = {}".format(id)
         cursor.execute(query)
         data = cursor.fetchall()
         cursor.close()
@@ -208,7 +208,7 @@ def guardar_historias():
     for key, value in data.iteritems():
         query += str(key) + " = " + "\'" + str(value) + "\'" + ", "
     query = query[:-2]
-    query += " WHERE id_hc = {}".format(data['codigo'])
+    query += " WHERE id_hc = {}".format(data['id_hc'])
     print(query)
 
     conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
@@ -220,8 +220,8 @@ def guardar_historias():
         cursor.close()
     except:
         data = {'respuesta': 500}
+    conn.commit()
     conn.close()
-
     return render_template('home.html')
 
 

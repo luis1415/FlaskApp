@@ -2,6 +2,7 @@
 {% from 'includes/formhelpers.html'import render_field %}
 {% block body %}
     <h3>Datos Maestros</h3>
+    {{ data }}
     <div class="container">
         <form action="/guardar_historias" id="textform" method="post" class="form-horizontal">
             <table class="table ">
@@ -15,13 +16,13 @@
                     <td><b>Fecha nacimiento</b></td>
                 </tr>
                 <tr>
-                    <td><input type="text" class="form-control" name="codigo" value={{ data[0][0] }}></td>
-                    <td><input type="text" class="form-control" name="nombre" value={{ data[0][7] }}></td>
-                    <td><input type="text" class="form-control" name="apellido" value={{ data[0][8] }}></td>
-                    <td><input type="text" class="form-control" name="sexo" value={{ data[0][6] }}></td>
-                    <td><input type="text" class="form-control" name="cedula" value={{ data[0][9] }}></td>
-                    <td><input type="text" class="form-control" name="ciudad" value={{ data[0][14] }}></td>
-                    <td><input type="text" class="form-control" name="fecha_nacimiento" value={{ data[0][15] }}></td>
+                    <td><input type="text" class="form-control" name="id_hc" value={{ data[0][0] }}></td>
+                    <td><input type="text" class="form-control" name="nombre" value={{ data[0][1] }}></td>
+                    <td><input type="text" class="form-control" name="apellido" value={{ data[0][2] }}></td>
+                    <td><input type="text" class="form-control" name="sexo" value={{ data[0][3] }}></td>
+                    <td><input type="text" class="form-control" name="cedula" value={{ data[0][4] }}></td>
+                    <td><input type="text" class="form-control" name="ciudad" value={{ data[0][5] }}></td>
+                    <td><input type="text" class="form-control" name="fecha_nacimiento" value={{ data[0][6] }}></td>
 
                 </tr>
             </table>
