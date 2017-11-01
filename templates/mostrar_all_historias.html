@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% set active_page = "mostrar_historias" %}
+{% from 'includes/formhelpers.html'import render_field %}
+{% block body %}
+    <div class="container">
+        <h1>Consultar Historias Clínicas</h1>
+        <div class="row" style="float:left">
+            <table class="table table-responsive table-hover">
+            <div class="col-sm-3">
+                {% for t in data %}
+                    <tr>
+                        <td><b>Código</b></td>
+                        <td><b>Id usuario</b></td>
+                        <td><b>Diagnóstico</b></td>
+                        <td><b>Tratamiento</b></td>
+                        <td><b>Fecha Elaboración</b></td>
+                        <td><b>Empresa</b></td>
+                        <td><b>Sexo</b></td>
+                        <td><b>Nombre</b></td>
+                        <td><b>Apellido</b></td>
+                        <td><b>Cédula</b></td>
+                        <td><b>Tipo de certificado</b></td>
+                        <td><b>Examenes practicados</b></td>
+                        <td><b>Teléfono</b></td>
+                        <td><b>Celular</b></td>
+                        <td><b>Ciudad</b></td>
+                        <td><b>Fecha nacimiento</b></td>
+                        <td><b>Estado civil</b></td>
+                        <td><b>Escolaridad</b></td>
+                        <td><b>Profesión</b></td>
+                    </tr>
+
+                    <tr>
+                        {% for i in t %}
+                            {% if i == None %}
+                                <td> Vacio</td>
+                            {% else %}
+                                <td>{{ i }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </div>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -155,6 +155,26 @@ def mostrar_historias():
     return render_template('mostrar_historias.html', data=data)
 
 
+@app.route('/mostrar_all_historias', methods=['GET'])
+def mostrar_all_historias():
+    conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
+                           passwd=config['password'],
+                           db=config['db'])
+    cursor = conn.cursor()
+    query = "SELECT * FROM historia"
+    try:
+        cursor.execute(query)
+        data = cursor.fetchall()
+        # data = list(data)
+        # data = json.dumps(data, default=fechas_json).encode('utf8')
+        # se cierra el cursor
+        cursor.close()
+    except:
+        data = {'respuesta': 500}
+    conn.close()
+    return render_template('mostrar_all_historias.html', data=data)
+
+
 @app.route('/eliminar_historia/<id>', methods=['GET', 'POST'])
 def eliminar_historias(id):
     conn = MySQLdb.connect(host=config['host'], port=config['port'], user=config['user'],
